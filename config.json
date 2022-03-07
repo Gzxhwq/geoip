@@ -30,6 +30,24 @@
       "type": "text",
       "action": "add",
       "args": {
+        "name": "cn",
+        "uri": "https://raw.githubusercontent.com/metowolf/iplist/master/data/country/CN.txt",
+        "onlyIPType": "ipv4"
+      }
+    },
+    {
+      "type": "text",
+      "action": "add",
+      "args": {
+        "name": "cn",
+        "uri": "https://raw.githubusercontent.com/soffchen/GeoIP2-CN/release/CN-ip-cidr.txt",
+        "onlyIPType": "ipv4"
+      }
+    },
+    {
+      "type": "text",
+      "action": "add",
+      "args": {
         "inputDir": "./data"
       }
     },
@@ -43,7 +61,8 @@
       "type": "v2rayGeoIPDat",
       "action": "output",
       "args": {
-        "outputName": "geoip.dat"
+        "outputName": "geoip.dat",
+        "outputDir": "./output"
       }
     },
     {
@@ -51,6 +70,7 @@
       "action": "output",
       "args": {
         "outputName": "geoip-only-cn-private.dat",
+        "outputDir": "./output",
         "wantedList": ["cn", "private"]
       }
     },
@@ -59,6 +79,7 @@
       "action": "output",
       "args": {
         "outputName": "geoip-asn.dat",
+        "outputDir": "./output",
         "wantedList": [
           "cloudflare",
           "cloudfront",
@@ -72,17 +93,10 @@
       }
     },
     {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "oneFilePerList": true,
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
       "type": "maxmindMMDB",
       "action": "output",
       "args": {
+        "outputDir": "./output",
         "outputName": "Country.mmdb"
       }
     },
@@ -90,13 +104,42 @@
       "type": "maxmindMMDB",
       "action": "output",
       "args": {
+        "outputDir": "./output",
         "outputName": "Country-only-cn-private.mmdb",
         "wantedList": ["cn", "private"]
       }
     },
     {
       "type": "text",
-      "action": "output"
+      "action": "output",
+      "args": {
+        "wantedList": ["cn", "private"],
+        "onlyIPType": "ipv4"
+      }
+    },
+    {
+      "type": "clashRuleSetClassical",
+      "action": "output",
+      "args": {
+        "wantedList": ["cn"],
+        "onlyIPType": "ipv4"
+      }
+    },
+    {
+      "type": "clashRuleSet",
+      "action": "output",
+      "args": {
+        "wantedList": ["cn"],
+        "onlyIPType": "ipv4"
+      }
+    },
+    {
+      "type": "surgeRuleSet",
+      "action": "output",
+      "args": {
+        "wantedList": ["cn"],
+        "onlyIPType": "ipv4"
+      }
     }
   ]
 }

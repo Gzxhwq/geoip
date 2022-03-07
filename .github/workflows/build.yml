@@ -2,7 +2,7 @@ name: Build geoip.dat
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 4"
+    - cron: '30 * * * *'
   push:
     branches:
       - master
@@ -33,6 +33,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install dependency
+        run: |
+          sudo -E apt-get update -y
+          sudo -E apt-get install -y aggregate
+          
       - name: Fetch lists from ripe.net
         run: |
           chmod +x asn.sh
@@ -58,20 +63,6 @@ jobs:
         run: |
           go run ./
 
-      - name: Generate sha256 checksum for dat files
-        run: |
-          cd ./output/dat || exit 1
-          for name in $(ls *.dat); do
-            sha256sum ${name} > ./${name}.sha256sum
-          done
-
-      - name: Generate sha256 checksum for mmdb files
-        run: |
-          cd ./output/maxmind || exit 1
-          for name in $(ls *.mmdb); do
-            sha256sum ${name} > ./${name}.sha256sum
-          done
-
       - name: Download GeoLite2
         env:
           LICENSE_KEY: ${{ secrets.MAXMIND_GEOLITE2_LICENSE }}
@@ -84,8 +75,26 @@ jobs:
       - name: Move files to publish directory
         run: |
           mkdir -p publish
-          mv ./output/dat/*.dat ./output/dat/*.sha256sum ./output/maxmind/*.mmdb ./output/maxmind/*.sha256sum *.gz *.zip ./publish/
-          cp -fpPR ./output/text ./publish
+          mv ./output/*.* ./publish/
+          mv ./output/clash/ipcidr/cn.txt ./publish/clash-rule-provider.yml
+          mv ./output/clash/classical/cn.txt ./publish/clash-ruleset.list
+          mv ./output/surge/cn.txt ./publish/surge-ruleset.list
+          cat ./output/text/*.txt | aggregate -q > ./publish/geoip-only-cn-private.txt
+
+      - name: Generate RouterOS script
+        run: |
+          cd ./publish || exit 1
+          sed 's/\(.*\)/add address=\1 list=CN/g' ./geoip-only-cn-private.txt > ./geoip-only-cn-private.rsc
+          sed -i '1 i/log info "Loading CN ipv4 address list"' ./geoip-only-cn-private.rsc
+          sed -i '2 i/ip firewall address-list remove [/ip firewall address-list find list=CN]' ./geoip-only-cn-private.rsc
+          sed -i '3 i/ip firewall address-list' ./geoip-only-cn-private.rsc
+
+      - name: Generate sha256 checksum for publish files
+        run: |
+          cd ./publish || exit 1
+          for name in $(ls *.* | grep -v sha256sum); do
+            sha256sum ${name} > ./${name}.sha256sum
+          done
 
       - name: Git push assets to "release" branch
         run: |
