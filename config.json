@@ -113,7 +113,7 @@
       "type": "text",
       "action": "output",
       "args": {
-        "wantedList": ["cn", "private"],
+        "wantedList": ["cn", "private", "cloudflare"],
         "onlyIPType": "ipv4"
       }
     },
