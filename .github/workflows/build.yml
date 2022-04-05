@@ -90,7 +90,8 @@ jobs:
           sed -i '1 i/log info "Loading CN ipv4 address list"' ./geoip-only-cn-private.rsc
           sed -i '2 i/ip firewall address-list remove [/ip firewall address-list find list=CN]' ./geoip-only-cn-private.rsc
           sed -i '3 i/ip firewall address-list' ./geoip-only-cn-private.rsc
-          sed -e 's/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\/[0-9]\{1,2\}/add action=lookup comment=Cloudflare disabled=no dst-address=& table=to_CU/g' ./cloudflare.rsc
+
+          sed -i 's/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\/[0-9]\{1,2\}/add action=lookup comment=Cloudflare disabled=no dst-address=& table=to_CU/g' ./cloudflare.rsc
           sed -i '1 i/log info "Loading Cloudflare ipv4 routing rules"' ./cloudflare.rsc
           sed -i '2 i/routing rule remove [/routing rule find comment=Cloudflare]' ./cloudflare.rsc
           sed -i '3 i/routing rule' ./cloudflare.rsc
