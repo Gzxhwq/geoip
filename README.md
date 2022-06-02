@@ -3,7 +3,7 @@
 ### 🇨🇳 更小巧、更实时的 中国大陆 IP 段 + GeoIP2 数据库 🇨🇳
 
 本项目数据源更换为 
-[misakaio/chnroutes2](https://github.com/misakaio/chnroutes2)、[17mon/china_ip_list](https://github.com/17mon/china_ip_list)、[metowolf/iplist](https://github.com/metowolf/iplist)，每小时更新一次。
+[misakaio/chnroutes2](https://github.com/misakaio/chnroutes2)、[17mon/china_ip_list](https://github.com/17mon/china_ip_list)、[metowolf/iplist](https://github.com/metowolf/iplist)，每星期更新一次。
 
 ### 📥 下载链接
 | 📦 项目 | 📃 文件名 | :octocat: GitHub RAW | 🚀 CDN 加速 | 🔧 适用范围
