@@ -97,7 +97,19 @@
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "Country.mmdb"
+        "outputName": "Country.mmdb",
+        "overwriteList": [
+          "cn",
+          "private",
+          "cloudflare",
+          "cloudfront",
+          "facebook",
+          "fastly",
+          "google",
+          "netflix",
+          "telegram",
+          "twitter"
+        ]
       }
     },
     {
